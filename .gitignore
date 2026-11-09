@@ -1,0 +1,25 @@
+# 密钥与本地配置
+.env
+.env.*
+*.key
+secret*
+!minefield-sourcing/assets/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+__MACOSX/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 打包产物
+*.skill
+*.zip
+
+# 编辑器
+.vscode/
+.idea/

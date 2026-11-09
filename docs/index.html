@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>选品作战卡 · 纳米双面胶带</title>
+<style>
+:root{
+  color-scheme: light;
+  --paper:#E9E7E1;
+  --paper-2:#F2F0EA;
+  --ink:#15171A;
+  --ink-2:#4A4D50;
+  --grey:#85878A;
+  --line:#C4C1B7;
+  --red:#A8251C;
+  --red-bg:#F0DEDA;
+  --yellow:#C79412;
+  --yellow-bg:#F3E9CB;
+  --green:#1F6B45;
+  --green-bg:#DCE7DF;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#D8D5CE}
+body{
+  font-family:var(--sans);
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+  max-width:960px;
+  margin:0 auto;
+  padding:0 0 80px;
+  box-shadow:0 0 60px rgba(0,0,0,.13);
+}
+/* ── 文件抬头 ── */
+.filebar{
+  display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+  padding:14px 40px;
+  border-bottom:1px solid var(--line);
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:.06em;
+  color:var(--grey);
+  text-transform:uppercase;
+}
+.filebar b{color:var(--ink);font-weight:500}
+
+/* ── 产品头部 ── */
+.masthead{
+  padding:44px 40px 34px;
+  border-bottom:2px solid var(--ink);
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:30px;
+  position:relative;
+}
+.masthead h1{
+  font-size:44px;
+  line-height:1.08;
+  font-weight:700;
+  letter-spacing:-.022em;
+  margin-bottom:8px;
+}
+.masthead .en{
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--grey);
+  margin-bottom:20px;
+}
+.facts{
+  display:flex;flex-wrap:wrap;gap:0;
+  font-size:13px;
+  border-top:1px solid var(--line);
+  padding-top:14px;
+  max-width:520px;
+}
+.facts div{
+  padding-right:22px;margin-right:22px;
+  border-right:1px solid var(--line);
+}
+.facts div:last-child{border-right:0;margin-right:0;padding-right:0}
+.facts dt{font-size:10px;font-family:var(--mono);letter-spacing:.08em;color:var(--grey);text-transform:uppercase}
+.facts dd{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+
+/* ── 判决印章 ── */
+.stamp{
+  flex:0 0 auto;
+  border:2.5px solid var(--yellow);
+  color:var(--yellow);
+  padding:16px 20px 13px;
+  text-align:center;
+  transform:rotate(-5.5deg);
+  margin-top:6px;
+  background:rgba(199,148,18,.05);
+  position:relative;
+}
+.stamp::after{
+  content:"";
+  position:absolute;inset:4px;
+  border:1px solid var(--yellow);
+  opacity:.5;
+}
+.stamp .glyph{font-size:26px;line-height:1;margin-bottom:6px}
+.stamp .verdict{font-size:17px;font-weight:700;letter-spacing:.16em;line-height:1.3}
+.stamp .code{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;margin-top:6px;opacity:.8}
+
+/* ── 结论带 ── */
+.verdict-band{
+  background:var(--ink);color:var(--paper-2);
+  padding:20px 40px;
+  display:flex;align-items:center;gap:26px;flex-wrap:wrap;
+}
+.verdict-band .score{
+  font-size:38px;font-weight:700;line-height:1;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:-.03em;
+}
+.verdict-band .score small{font-size:14px;color:#9A9C9E;font-weight:400;letter-spacing:0}
+.verdict-band .txt{font-size:14.5px;color:#D6D4CF;max-width:600px;border-left:1px solid #3C3F42;padding-left:26px}
+.verdict-band .txt b{color:#fff}
+
+/* ── 站点区块 ── */
+.station{
+  border-bottom:1px solid var(--line);
+  padding:34px 40px;
+  display:grid;
+  grid-template-columns:118px 1fr;
+  gap:32px;
+}
+.station-head{
+  position:sticky;top:0;
+}
+.station-head .no{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.1em;
+  color:var(--grey);
+  display:block;
+  margin-bottom:2px;
+}
+.station-head .name{
+  font-size:19px;
+  font-weight:700;
+  letter-spacing:-.01em;
+  line-height:1.25;
+  display:block;
+}
+.station-head .wt{
+  font-size:10.5px;color:var(--grey);
+  font-family:var(--mono);
+  display:block;margin-top:6px;
+}
+.station-body{min-width:0}
+.lede{font-size:14.5px;color:var(--ink-2);max-width:66ch;margin-bottom:20px}
+.lede b{color:var(--ink);font-weight:600}
+
+/* ── 图表通用 ── */
+figure{margin:0 0 20px}
+figcaption{
+  font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+  color:var(--grey);margin-top:9px;text-transform:uppercase;
+}
+svg{display:block;width:100%;height:auto;overflow:visible}
+
+/* ── 数据网格 ── */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(126px,1fr));
+  gap:0;
+  border-top:1px solid var(--line);
+  margin-bottom:20px;
+}
+.grid > div{
+  padding:13px 14px 12px 0;
+  border-bottom:1px solid var(--line);
+}
+.grid .k{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;
+  color:var(--grey);text-transform:uppercase;margin-bottom:3px;
+}
+.grid .v{font-size:19px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.grid .v em{font-style:normal;font-size:11px;font-weight:400;color:var(--grey);margin-left:3px}
+.grid .n{font-size:11px;color:var(--grey);margin-top:2px}
+
+/* ── 判定标签 ── */
+.pill{
+  display:inline-block;
+  font-family:var(--mono);
+  font-size:10px;letter-spacing:.05em;
+  padding:2px 7px;
+  border:1px solid currentColor;
+  white-space:nowrap;
+}
+.p-ok{color:var(--green);background:var(--green-bg)}
+.p-warn{color:var(--yellow);background:var(--yellow-bg)}
+.p-die{color:var(--red);background:var(--red-bg)}
+.p-na{color:var(--grey);background:transparent}
+
+/* ── 专利表 ── */
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:6px}
+th{
+  text-align:left;font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;
+  color:var(--grey);text-transform:uppercase;font-weight:400;
+  padding:0 10px 7px 0;border-bottom:1px solid var(--ink);
+}
+td{padding:9px 10px 9px 0;border-bottom:1px solid var(--line);vertical-align:top}
+td.num{font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums}
+td .sub{display:block;font-size:10.5px;color:var(--grey);margin-top:1px}
+
+/* ── 认知落差图 ── */
+.split{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:18px}
+.bar-row{display:grid;grid-template-columns:1fr 62px 1fr;align-items:center;gap:0;font-size:12.5px}
+.bar-row .lbl-l{text-align:right;padding-right:10px;color:var(--green);font-weight:600}
+.bar-row .lbl-r{text-align:left;padding-left:10px;color:var(--red);font-weight:600}
+.bar-mid{text-align:center;font-family:var(--mono);font-size:9.5px;color:var(--grey);letter-spacing:.04em}
+.track{height:19px;display:flex;align-items:center}
+.track.l{justify-content:flex-end}
+.fill{height:15px;transition:width .5s ease}
+.fill.g{background:var(--green)}
+.fill.r{background:var(--red)}
+
+/* ── 作战参数 ── */
+.orders{background:var(--paper-2);border:1px solid var(--line);padding:24px 26px;margin:0 40px 0}
+.orders h3{
+  font-size:15px;font-weight:700;margin-bottom:16px;
+  padding-bottom:10px;border-bottom:1px solid var(--line);
+}
+.orders ol{list-style:none;counter-reset:o}
+.orders li{
+  counter-increment:o;
+  padding:11px 0 11px 34px;
+  border-bottom:1px solid var(--line);
+  font-size:13.5px;position:relative;color:var(--ink-2);
+}
+.orders li:last-child{border-bottom:0}
+.orders li::before{
+  content:counter(o,decimal-leading-zero);
+  position:absolute;left:0;top:11px;
+  font-family:var(--mono);font-size:10.5px;color:var(--grey);
+}
+.orders li b{color:var(--ink);font-weight:600}
+
+/* ── 页脚 ── */
+footer{
+  padding:26px 40px 0;
+  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:10px;letter-spacing:.05em;
+  color:var(--grey);text-transform:uppercase;
+  border-top:1px solid var(--line);margin-top:40px;
+}
+.note{
+  font-size:11.5px;color:var(--grey);border-left:2px solid var(--line);
+  padding-left:12px;margin-top:16px;max-width:70ch;line-height:1.6;
+}
+
+@media (max-width:700px){
+  body{box-shadow:none}
+  .filebar,.masthead,.verdict-band,.station,footer{padding-left:22px;padding-right:22px}
+  .orders{margin:0 22px}
+  .masthead{flex-direction:column;gap:24px}
+  .masthead h1{font-size:32px}
+  .stamp{align-self:flex-start;transform:rotate(-3deg)}
+  .station{grid-template-columns:1fr;gap:14px}
+  .verdict-band .txt{border-left:0;padding-left:0}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .bar-row{grid-template-columns:1fr 52px 1fr;font-size:11px}
+}
+@media (prefers-reduced-motion:reduce){
+  .fill{transition:none}
+}
+</style>
+</head>
+<body>
+
+<div class="filebar">
+  <span>案件编号 <b>MST-2026-1109</b></span>
+  <span>数据源 <b>OpenBoost MCP</b></span>
+</div>
+
+<header class="masthead">
+  <div>
+    <h1>纳米双面胶带</h1>
+    <div class="en">Nano Double-Sided Mounting Tape</div>
+    <dl class="facts">
+      <div><dt>零售价</dt><dd>$6.49</dd></div>
+      <div><dt>7 日销量</dt><dd>3,915</dd></div>
+      <div><dt>带货达人</dt><dd>0</dd></div>
+      <div><dt>上架</dt><dd>2026-09-28</dd></div>
+    </dl>
+  </div>
+  <div class="stamp">
+    <div class="glyph">▲</div>
+    <div class="verdict">改设计后<br>可推进</div>
+    <div class="code">GATE · CAUTION</div>
+  </div>
+</header>
+
+<div class="verdict-band">
+  <div class="score">67<small> / 100</small></div>
+  <div class="txt">
+    需求稳定、缝隙存在、痛点极清晰，<b>但单价过低侵蚀利润</b>；专利闸门为<b>黄色</b>——
+    命中 3 件有效外观专利，均可通过形态规避。建议改设计后打样，不建议直接照抄现有胶带卷外形。
+  </div>
+</div>
+
+<!-- 01 -->
+<section class="station">
+  <div class="station-head">
+    <span class="no">01</span>
+    <span class="name">需求势能</span>
+    <span class="wt">权重 25% · 得 16</span>
+  </div>
+  <div class="station-body">
+    <p class="lede">
+      Amazon 侧月搜索量稳定在 <b>50–80 万</b>，年度规模够大；TikTok 侧该品 7 天出 <b>3,915 单</b>，
+      而带货达人数为 <b>0</b>、关联视频数为 <b>0</b> —— 这是纯自然流量起量的信号，最干净，也最短暂。
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 620 190" role="img" aria-label="double sided tape 月搜索趋势">
+        <defs>
+          <linearGradient id="fillTrend" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#15171A" stop-opacity=".16"/>
+            <stop offset="100%" stop-color="#15171A" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <g stroke="#C4C1B7" stroke-width="1">
+          <line x1="0" y1="30" x2="620" y2="30"/>
+          <line x1="0" y1="85" x2="620" y2="85"/>
+          <line x1="0" y1="140" x2="620" y2="140"/>
+          <line x1="0" y1="160" x2="620" y2="160" stroke="#15171A"/>
+        </g>
+        <g font-family="ui-monospace,Menlo,monospace" font-size="9" fill="#85878A">
+          <text x="0" y="24">800K</text>
+          <text x="0" y="79">550K</text>
+          <text x="0" y="134">300K</text>
+        </g>
+        <path d="M32,63 L71,87 L110,88 L149,32 L187,50 L226,51 L265,79 L304,92 L343,67 L382,82 L421,66 L460,51 L499,57 L538,84 L577,84 L616,84 L616,160 L32,160 Z"
+              fill="url(#fillTrend)"/>
+        <polyline points="32,63 71,87 110,88 149,32 187,50 226,51 265,79 304,92 343,67 382,82 421,66 460,51 499,57 538,84 577,84 616,84"
+                  fill="none" stroke="#15171A" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="149" cy="32" r="4" fill="#A8251C"/>
+        <g font-family="ui-monospace,Menlo,monospace" font-size="9" fill="#15171A">
+          <text x="132" y="22">827K · 8月峰</text>
+        </g>
+        <g font-family="ui-monospace,Menlo,monospace" font-size="8.5" fill="#85878A">
+          <text x="32" y="176">2025-05</text>
+          <text x="290" y="176">2026-01</text>
+          <text x="576" y="176">2026-08</text>
+        </g>
+      </svg>
+      <figcaption>ABA 月搜索量 · 16 个月 · 关键词 double sided tape · 站 US</figcaption>
+    </figure>
+
+    <div class="grid">
+      <div><div class="k">周搜索量</div><div class="v">139,262<em>次</em></div><div class="n">ABA 2026-10-31</div></div>
+      <div><div class="k">Top3 点击集中</div><div class="v">30.3<em>%</em></div><div class="n">低于 50% 阈值</div></div>
+      <div><div class="k">标题密度</div><div class="v">27</div><div class="n">略高，红海预警</div></div>
+      <div><div class="k">4 周排名变化</div><div class="v">−16.3<em>%</em></div><div class="n">需求在回落</div></div>
+    </div>
+    <p class="note">
+      判读：盘子够大且集中度健康，但 4 周趋势向下 —— 这不是「正在爆发」的机会，是「常年稳定、靠运营切份额」的生意。
+      季节性强（8 月峰值 827K，7 月骤降至 273K），备货节奏必须错峰。
+    </p>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="station">
+  <div class="station-head">
+    <span class="no">02</span>
+    <span class="name">供给结构</span>
+    <span class="wt">权重 25% · 得 16</span>
+  </div>
+  <div class="station-body">
+    <p class="lede">
+      类目 Adhesive Tapes 共 <b>46 个品牌 / 41 个卖家</b>，FBA 占比 <b>68%</b>，Amazon 自营仅 <b>24%</b> ——
+      结构健康。头部 EZlifego 一家 13 万评论独大，但新人仍有上桌机会。
+    </p>
+
+    <div class="grid">
+      <div><div class="k">品牌数</div><div class="v">46</div><div class="n">阈值 &gt;15 ✓</div></div>
+      <div><div class="k">卖家数</div><div class="v">41</div><div class="n">阈值 &gt;20 ✓</div></div>
+      <div><div class="k">FBA 占比</div><div class="v">68<em>%</em></div><div class="n">阈值 &gt;60% ✓</div></div>
+      <div><div class="k">自营占比</div><div class="v">24<em>%</em></div><div class="n">阈值 &lt;40% ✓</div></div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>玩家</th><th>30 日销量</th><th>价格</th><th>评论</th><th>上架</th><th>判断</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>EZlifego<span class="sub">B07YB1ZXG6 · 香港卖家</span></td>
+          <td class="num">68,949</td><td class="num">$11.98</td><td class="num">132,365</td><td class="num">2019-10</td>
+          <td><span class="pill p-die">头部垄断</span></td>
+        </tr>
+        <tr>
+          <td>Art3d<span class="sub">B09K542R32 · 美国卖家</span></td>
+          <td class="num">29,451</td><td class="num">$6.99</td><td class="num">33,746</td><td class="num">2021-10</td>
+          <td><span class="pill p-warn">稳居第二</span></td>
+        </tr>
+        <tr>
+          <td>SUTOUG<span class="sub">B0FRHYN8SN</span></td>
+          <td class="num">16,674</td><td class="num">$9.99</td><td class="num">1,827</td><td class="num">2025-09</td>
+          <td><span class="pill p-ok">新人已破局</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">
+      关键证据：SUTOUG 2025 年 9 月才上架，13 个月内做到 30 日 1.6 万单、
+      评论仅 1,827 条 —— 说明这个类目的流量分配还没被老玩家的评论墙锁死，新人能靠产品和投放切进去。
+    </p>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="station">
+  <div class="station-head">
+    <span class="no">03</span>
+    <span class="name">专利排雷</span>
+    <span class="wt">闸门 · 否决权</span>
+  </div>
+  <div class="station-body">
+    <p class="lede">
+      用 Amazon 主图直接反查美国外观专利。检索词必须用专利术语
+      <b>adhesive tape</b>（用电商词 <b>nano tape</b> 命中数为 0，会得出错误的安全结论）。
+      命中 4 件相关专利，<b>3 件仍然有效</b>。
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>专利号</th><th>名称</th><th>权利人</th><th>相似度</th><th>法律状态</th><th>结论</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="num">USD741406S</td><td>Adhesive tape roll<span class="sub">带非粘性起始边的胶带卷</span></td>
+          <td>DOUCETTE, JEREMY</td><td class="num">0.652</td>
+          <td><span class="pill p-die">有效 · 授权</span></td>
+          <td>避开「卷端非粘性起头」结构</td>
+        </tr>
+        <tr>
+          <td class="num">USD959681S</td><td>Antimicrobial adhesive tape<span class="sub">抗菌胶带</span></td>
+          <td>SILVER DEFENDER CORP</td><td class="num">0.624</td>
+          <td><span class="pill p-die">有效 · 授权</span></td>
+          <td>不做抗菌概念即规避</td>
+        </tr>
+        <tr>
+          <td class="num">USD847258S</td><td>Adhesive tape<span class="sub">胶带本体形态</span></td>
+          <td>KANG, HEEJOONG</td><td class="num">0.539</td>
+          <td><span class="pill p-die">有效 · 授权</span></td>
+          <td>形态需差异化，勿照抄</td>
+        </tr>
+        <tr>
+          <td class="num">USD633213S</td><td>Bandage roll<span class="sub">绷带卷</span></td>
+          <td>COWLES, JOHN</td><td class="num">0.622</td>
+          <td><span class="pill p-ok">失效 · 期限届满</span></td>
+          <td>已进公有领域，可自由使用</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="grid">
+      <div><div class="k">EZlifego 专利存量</div><div class="v">0<em>件</em></div><div class="n">未布防</div></div>
+      <div><div class="k">Art3d 专利存量</div><div class="v">2<em>件</em></div><div class="n">均非本类目</div></div>
+      <div><div class="k">SUTOUG 专利存量</div><div class="v">0<em>件</em></div><div class="n">未布防</div></div>
+      <div><div class="k">闸门判定</div><div class="v" style="color:var(--yellow)">🟡 改设计</div><div class="n">非一票否决</div></div>
+    </div>
+
+    <p class="note">
+      <b>为什么是黄色而不是红色：</b>命中的 3 件有效专利都指向「胶带卷」这一载体的具体形态特征
+      （卷端起头方式、抗菌涂层、卷体外形），而不是纳米胶带的核心功能。这些特征可以被规避 ——
+      改用纸芯直卷、去掉非粘性起边、不做抗菌宣称，即可错开。
+      同时头部三家品牌的专利存量都极低（0–2 件），说明这个品类没有系统性专利墙。
+      <br><br>
+      <b>但必须提醒：</b>「品牌专利存量为 0」不等于「品类无专利」。上面的命中全部来自独立发明人，
+      这类小专利权人往往更愿意发起维权。正式投产前建议花几百美金做一次 FTO（自由实施）检索。
+    </p>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="station">
+  <div class="station-head">
+    <span class="no">04</span>
+    <span class="name">痛点逆向</span>
+    <span class="wt">权重 30% · 得 24</span>
+  </div>
+  <div class="station-body">
+    <p class="lede">
+      TikTok 评论聚类给出一个罕见的<b>认知分裂</b>：39% 的用户夸「强力粘合」，36% 的用户骂「粘合强度低」。
+      同一款产品，评价两极。这不是质量波动 —— 这是<b>用户在错误的使用场景里期望了错误的性能</b>。
+      这就是差异化入口。
+    </p>
+
+    <div class="split">
+      <div class="bar-row">
+        <div class="lbl-l">强力粘合</div>
+        <div class="track l"><div class="fill g" style="width:88%"></div></div>
+        <div class="bar-mid">39%</div>
+        <div class="track r"></div>
+        <div></div>
+      </div>
+      <div class="bar-row" style="margin-top:-8px">
+        <div class="lbl-l" style="color:var(--grey);font-weight:400">好评</div>
+        <div class="track"></div>
+        <div class="bar-mid">vs</div>
+        <div class="track"></div>
+        <div class="lbl-r" style="color:var(--grey);font-weight:400">差评</div>
+      </div>
+      <div class="bar-row">
+        <div></div>
+        <div class="track l"></div>
+        <div class="bar-mid">36%</div>
+        <div class="track r"><div class="fill r" style="width:81%"></div></div>
+        <div class="lbl-r">粘合强度低</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>吐槽点</th><th>占比</th><th>归因</th><th>对应设计指令</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>粘合强度低</td><td class="num">36%</td>
+          <td>粘性不足，无法牢固粘附</td>
+          <td>主图与包装标注<b>承重上限</b>（如 1kg/10cm），按表面材质分档</td>
+        </tr>
+        <tr>
+          <td>与描述不符</td><td class="num">14%</td>
+          <td>广告宣传与实际效果不符</td>
+          <td>Listing 明确列出<b>不适用表面</b>：乳胶漆墙、壁纸、粗糙水泥</td>
+        </tr>
+        <tr>
+          <td>不耐用</td><td class="num">11%</td>
+          <td>粘性差，很快脱落</td>
+          <td>配方改用丙烯酸泡棉基材（Art3d 同路线），提升持久性</td>
+        </tr>
+        <tr>
+          <td>寿命有限</td><td class="num">6%</td>
+          <td>粘性差，很快脱落</td>
+          <td>内页附<b>清洁酒精棉片</b>，施工前除油可显著延长寿命</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="note">
+      <b>真实差评原文印证：</b>「It doesn't stick in all surfaces. I place a great amount on my frame,
+      my frame fell and broke.」（不是所有表面都粘得住，我贴了很多，相框还是掉下来摔碎了）——
+      这正是 36% 的具象化。另一条 5 星好评却警告「Be careful not to pull off drywall」（小心别把墙皮撕下来）——
+      粘性其实过剩，真正的问题是<b>没有告诉用户该怎么用</b>。
+      <br><br>
+      <b>结论：</b>这个品类的赢法不是「做得更粘」，是<b>把使用边界讲清楚</b>。
+      谁先把「适用/不适用表面 + 承重表 + 施工步骤」做成产品的一部分，谁就能把 36% 的差评转化成转化率。
+    </p>
+  </div>
+</section>
+
+<!-- 作战参数 -->
+<div class="orders">
+  <h3>作战参数 · 可直接发给工厂</h3>
+  <ol>
+    <li><b>建议定价 $12.99–14.99。</b>避开 $6.99 的红海价格带，用「表面适配方案」支撑溢价；当前 TT 侧 $6.49 定价利润过薄，扣掉平台佣金与物流后几乎无盈余。</li>
+    <li><b>首批备货 800–1,200 件。</b>该品 7 日 3,915 单但评论数为 0，说明是爆发早期；建议小批量测款，若 14 天内复购与退货率健康再补单。</li>
+    <li><b>必须避开的 3 个专利特征：</b>卷端非粘性起始边（USD741406S）、抗菌涂层宣称（USD959681S）、现有胶带卷外形（USD847258S）。改用纸芯直卷 + 无抗菌概念 + 独立外形即可规避。</li>
+    <li><b>差异化卖点（唯一）：</b>「表面适配系统」—— 包装内附 5 片测试贴、一张 4 类表面适用性卡片、2 片酒精清洁棉片。直接对标 36% 的粘合强度投诉。</li>
+    <li><b>Listing 必须写清禁止事项：</b>乳胶漆墙面、壁纸、潮湿瓷砖、承重超限。看似降低转化，实际能把退货率从类目均值压下来，并规避 14% 的「与描述不符」差评。</li>
+    <li><b>季节节奏：</b>8 月是需求峰值（82.7 万搜索），7 月骤降至 27 万 —— 备货与广告预算须在 6 月底前到位，8 月中开始收，不要恋战。</li>
+  </ol>
+</div>
+
+<footer>
+  <span>OpenBoost MCP · Amazon / TikTok / Patent 三域交叉</span>
+  <span>数据日期 2026-11-09 · 12 次接口调用</span>
+</footer>
+
+</body>
+</html>
